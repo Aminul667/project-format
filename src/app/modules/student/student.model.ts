@@ -105,7 +105,7 @@ const studentSchema = new Schema<Student>({
     required: true,
     unique: true,
     validate: {
-      validator: (value) => validator.isEmail(value),
+      validator: (value: string) => validator.isEmail(value),
       message: '{VALUE} is not a valid email',
     },
   },
