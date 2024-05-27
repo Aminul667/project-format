@@ -1,5 +1,11 @@
 import { Model, Types } from 'mongoose';
 
+export type TUserName = {
+  firstName: string;
+  middleName: string;
+  lastName: string;
+};
+
 export type TGuardian = {
   fatherName: string;
   fatherOccupation: string;
@@ -7,12 +13,6 @@ export type TGuardian = {
   motherName: string;
   motherOccupation: string;
   motherContactNo: string;
-};
-
-export type TUserName = {
-  firstName: string;
-  middleName?: string;
-  lastName: string;
 };
 
 export type TLocalGuardian = {
@@ -38,20 +38,20 @@ export type TStudent = {
   guardian: TGuardian;
   localGuardian: TLocalGuardian;
   profileImg?: string;
-  isActive: 'active' | 'blocked';
   isDeleted: boolean;
 };
 
-// for creating static
+//for creating static
+
 export interface StudentModel extends Model<TStudent> {
   isUserExists(id: string): Promise<TStudent | null>;
 }
 
 // for creating instance
 
-// export type StudentMethods = {
-//   isUserExits(id: string): Promise<TStudent | null>;
-// };
+// export interface StudentMethods {
+//   isUserExists(id: string): Promise<TStudent | null>;
+// }
 
 // export type StudentModel = Model<
 //   TStudent,
