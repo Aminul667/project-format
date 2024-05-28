@@ -2,14 +2,9 @@ import { NextFunction, Request, RequestHandler, Response } from 'express';
 import httpStatus from 'http-status';
 import sendResponse from '../../utils/sendResponse';
 import { StudentServices } from './student.service';
+import catchAsync from '../../utils/catchAsync';
 
-const catchAsync = (fn: RequestHandler) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    Promise.resolve(fn(req, res, next)).catch((err) => next(err));
-  };
-};
-
-const getSingleStudent: RequestHandler = catchAsync(async (req, res, next) => {
+const getSingleStudent: RequestHandler = catchAsync(async (req, res) => {
   const { studentId } = req.params;
   const result = await StudentServices.getSingleStudentFromDB(studentId);
 
@@ -21,7 +16,7 @@ const getSingleStudent: RequestHandler = catchAsync(async (req, res, next) => {
   });
 });
 
-const getAllStudents: RequestHandler = catchAsync(async (req, res, next) => {
+const getAllStudents: RequestHandler = catchAsync(async (req, res) => {
   const result = await StudentServices.getAllStudentsFromDB();
 
   sendResponse(res, {
@@ -32,7 +27,7 @@ const getAllStudents: RequestHandler = catchAsync(async (req, res, next) => {
   });
 });
 
-const deleteStudent: RequestHandler = catchAsync(async (req, res, next) => {
+const deleteStudent: RequestHandler = catchAsync(async (req, res) => {
   const { studentId } = req.params;
   const result = await StudentServices.deleteStudentFromDB(studentId);
 
