@@ -13,10 +13,10 @@ router.post(
   SemesterRegistrationController.createSemesterRegistration,
 );
 
-// router.get(
-//   '/:id',
-//   SemesterRegistrationController.getSingleSemesterRegistration,
-// );
+router.get(
+  '/:id',
+  SemesterRegistrationController.getSingleSemesterRegistration,
+);
 
 // router.patch(
 //   '/:id',
@@ -36,6 +36,6 @@ router.post(
 //   SemesterRegistrationController.deleteSemesterRegistration,
 // );
 
-// router.get('/', SemesterRegistrationController.getAllSemesterRegistrations);
+router.get('/', SemesterRegistrationController.getAllSemesterRegistrations);
 
 export const semesterRegistrationRoutes = router;
