@@ -23,7 +23,12 @@ router.patch(
 
 router.delete('/:id', CourseControllers.deleteCourse);
 
-router.put('/:courseId/assign-faculties');
+router.put(
+  '/:courseId/assign-faculties',
+  validateRequest(CourseValidations.facultiesWithCourseValidationSchema),
+  CourseControllers.assignFacultiesWithCourse,
+);
+
 router.get('/', CourseControllers.getAllCourses);
 
 export const CourseRoutes = router; // as router is an object itself
