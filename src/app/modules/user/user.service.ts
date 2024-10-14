@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from 'mongoose';
 import config from '../../config';
 import { TAcademicSemester } from '../academicSemester/academicSemester.interface';
@@ -20,7 +21,11 @@ import { Admin } from '../Admin/admin.model';
 import { verifyToken } from '../Auth/auth.utils';
 import { sendImageToCloudinary } from '../../utils/sendImageToCloudinary';
 
-const createStudentIntoDB = async (password: string, payload: TStudent) => {
+const createStudentIntoDB = async (
+  file: any,
+  password: string,
+  payload: TStudent,
+) => {
   // create a user object
   const userData: Partial<TUser> = {};
 
@@ -47,7 +52,10 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
     );
 
     // send image to cloudinary
-    sendImageToCloudinary();
+    const imageName = `${userData?.id}${payload?.name?.firstName}`;
+    const path = file?.path;
+
+    const { secure_url } = await sendImageToCloudinary(imageName, path);
 
     // create a user(transaction 1)
     const newUser = await User.create([userData], { session });
@@ -59,6 +67,7 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
     // set id , _id as user
     payload.id = newUser[0].id;
     payload.user = newUser[0]._id; //reference _id
+    payload.profileImg = secure_url;
 
     // create a new student(transaction 2)
     const newStudent = await Student.create([payload], { session });
